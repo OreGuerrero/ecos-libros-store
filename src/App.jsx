@@ -6,7 +6,7 @@ function App() {
     titulo: "El Popol Vuh",
     autor: "Anónimo / Tradición Maya",
     precio: 18500,
-    imagen: "https://via.placeholder.com/150x220?text=Popol+Vuh"
+    imagen: "/popol.jpg"
   }
 
   return (
