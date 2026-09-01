@@ -1,53 +1,48 @@
 import { useState, useEffect } from 'react';
 
 function ItemListContainer() {
-  // Estado para guardar la lista de libros/productos
+  // 1. Definición de estados iniciales
   const [items, setItems] = useState([]);
-  // Estado de carga inicializado en true
   const [loading, setLoading] = useState(true);
 
+  // 2. Implementación de useEffect
   useEffect(() => {
-    // console.log para verificar en consola que solo se ejecuta una vez al montar
-    console.log("Efecto ejecutado: Simulando petición a API...");
+    // Verificación en consola (no debe repetirse)
+    console.log("Efecto ejecutado: Cargando datos...");
 
-    // Mock de productos ficticios (libros de Ecos Libros)
-    const mockProductos = [
-      { id: 1, name: 'El Popol Vuh', price: 18500 },
-      { id: 2, name: 'Poema de Gilgamesh', price: 15200 },
-      { id: 3, name: 'Código de Hammurabi', price: 12900 }
+    // Array ficticio de productos
+    const productosFicticios = [
+      { id: 1, name: 'El Popol Vuh' },
+      { id: 2, name: 'Poema de Gilgamesh' },
+      { id: 3, name: 'Código de Hammurabi' }
     ];
 
     // Simulación de demora de red de 2 segundos (2000 ms)
     const timer = setTimeout(() => {
-      setItems(mockProductos);
+      setItems(productosFicticios);
       setLoading(false);
     }, 2000);
 
-    // Limpieza del temporizador por si el componente se desmonta antes de los 2s
-    return () => clearTimeout(timer);
-  }, []); // Array de dependencias vacío para ejecución única al montar
+    return () => clearTimeout(timer); // Limpieza de seguridad
+  }, []); // Array de dependencias vacío
 
-  // Renderizado condicional
+  // 3. Renderizado Condicional
   if (loading) {
-    return (
-      <div style={{ textAlign: 'center', margin: '3rem' }}>
-        <h2>Cargando productos...</h2>
-      </div>
-    );
+    return <h2>Cargando productos...</h2>;
   }
 
   return (
-    <section style={{ padding: '2rem' }}>
+    <div style={{ textAlign: 'center', padding: '1rem' }}>
       <h2>Catálogo de Libros</h2>
-      <p>Cantidad de productos disponibles: {items.length}</p>
+      <p>Cantidad de productos: {items.length}</p>
       <ul style={{ listStyle: 'none', padding: 0 }}>
         {items.map(producto => (
-          <li key={producto.id} style={{ margin: '0.5rem 0', fontSize: '1.1rem' }}>
-            <strong>{producto.name}</strong> - ${producto.price}
+          <li key={producto.id} style={{ margin: '0.5rem 0' }}>
+            {producto.name}
           </li>
         ))}
       </ul>
-    </section>
+    </div>
   );
 }
 
