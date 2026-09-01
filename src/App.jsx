@@ -1,4 +1,5 @@
 import Item from './components/Item'
+import ItemListContainer from './components/ItemListContainer'
 import './App.css'
 
 function App() {
@@ -14,7 +15,7 @@ function App() {
       <h1>Ecos Libros - Tienda Online</h1>
       <p>Bienvenido a nuestra librería. Próximamente catálogo de libros y literatura.</p>
       
-      {/* Mantenemos tu mensaje y agregamos la sección con el libro interactivo */}
+      {/* Sección con la tarjeta individual del libro */}
       <section className="catalog">
         <Item 
           titulo={libroEjemplo.titulo}
@@ -23,6 +24,11 @@ function App() {
           imagen={libroEjemplo.imagen}
         />
       </section>
+
+      <hr style={{ margin: '2rem 0', borderColor: '#ccc' }} />
+
+      {/* Componente contenedor con la lógica asíncrona de useEffect */}
+      <ItemListContainer />
     </main>
   )
 }
