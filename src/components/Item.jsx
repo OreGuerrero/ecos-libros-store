@@ -1,51 +1,58 @@
 import { useState } from 'react';
+import { FaHeart, FaRegHeart } from 'react-icons/fa';
+import { BsCartPlus } from 'react-icons/bs';
 
 function Item({ titulo, autor, precio, imagen }) {
-  // 1. Identificar el estado inicial
   const [cantidad, setCantidad] = useState(1);
   const [esFavorito, setEsFavorito] = useState(false);
 
-  // 2. Implementar las funciones del contador usando la forma funcional
-  const handleSumar = () => {
-    setCantidad(prevCantidad => prevCantidad + 1);
+  const decrementar = () => {
+    if (cantidad > 1) {
+      setCantidad(prev => prev - 1);
+    }
   };
 
-  const handleRestar = () => {
-    setCantidad(prevCantidad => (prevCantidad > 1 ? prevCantidad - 1 : 1));
+  const incrementar = () => {
+    setCantidad(prev => prev + 1);
   };
 
-  // 3. Implementar la lógica del botón de favorito
-  const toggleFavorite = () => {
-    setEsFavorito(prevEsFavorito => !prevEsFavorito);
+  const toggleFavorito = () => {
+    setEsFavorito(prev => !prev);
   };
 
   return (
     <article className="book-card">
-      {/* Botón de favorito condicional */}
       <button 
-        onClick={toggleFavorite} 
-        className={`btn-favorite ${esFavorito ? 'favorite-active' : ''}`}
+        onClick={toggleFavorito} 
+        className="btn-favorite"
         aria-label="Agregar a favoritos"
       >
-        {esFavorito ? '❤️' : '🤍'}
+        {esFavorito ? (
+          <FaHeart color="#e63946" size={20} />
+        ) : (
+          <FaRegHeart color="#666" size={20} />
+        )}
       </button>
 
       <img src={imagen} alt={`Portada de ${titulo}`} className="book-cover" />
       
       <h2>{titulo}</h2>
-      <p className="book-author">{autor}</p>
-      <strong className="book-price">${precio}</strong>
+      <p className="author">{autor}</p>
+      <p className="price">${precio}</p>
 
-      {/* Contador de cantidad */}
-      <div className="counter-container">
-        <button onClick={handleRestar}>-</button>
+      <div className="counter-controls">
+        <button onClick={decrementar}>-</button>
         <span>{cantidad}</span>
-        <button onClick={handleSumar}>+</button>
+        <button onClick={incrementar}>+</button>
       </div>
 
-      <button className="btn-add">Agregar al carrito</button>
+      <button className="btn-add">
+        <BsCartPlus size={18} style={{ marginRight: '8px' }} />
+        Agregar al carrito
+      </button>
     </article>
   );
 }
 
 export default Item;
+
