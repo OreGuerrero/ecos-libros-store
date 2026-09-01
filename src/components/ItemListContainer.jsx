@@ -20,16 +20,26 @@ function ItemListContainer() {
         const data = await response.json();
 
         const titulosLibros = [
-          'El Poema de Gilgamesh - Edición Ilustrada',
-          'Historia de Sumeria y Acad',
-          'El Código de Hammurabi y las Leyes Antiguas',
-          'Mitos y Leyendas de la Antigua Mesopotamia',
-          'La Epopeya de Babilonia',
-          'Zoroastro: Las Enseñanzas del Avesta',
-          'Crónicas de los Reyes de Asiria',
-          'El Lenguaje de las Tablillas Cuneiformes',
-          'Arqueología de la Creciente Fértil',
-          'Ecos de las Primeras Civilizaciones'
+                'Don Quijote de la Mancha - Miguel de Cervantes',
+          'La Divina Comedia - Dante Alighieri',
+          'Crimen y Castigo - Fiódor Dostoyevski',
+          'La Odisea - Homero',
+          'Orgullo y Prejuicio - Jane Austen',
+          'Cien Años de Soledad - Gabriel García Márquez',
+          'Hamlet - William Shakespeare',
+          'En Busca del Tiempo Perdido - Marcel Proust',
+          'Las Mil y Una Noches - Anónimo',
+          'El Retrato de Dorian Gray - Oscar Wilde',
+          'Los Miserables - Victor Hugo',
+          'Madame Bovary - Gustave Flaubert',
+          'El Gran Gatsby - F. Scott Fitzgerald',
+          'La Metamorfosis - Franz Kafka',
+          '1984 - George Orwell',
+          'El Principito - Antoine de Saint-Exupéry',
+          'Moby Dick - Herman Melville',
+          'La Ilíada - Homero',
+          'Guerra y Paz - León Tolstói',
+          'Fausto - Johann Wolfgang von Goethe'
         ];
 
         const portadasLibros = [
