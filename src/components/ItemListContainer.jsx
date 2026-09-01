@@ -23,6 +23,18 @@ function ItemListContainer() {
       setLoading(false);
     }, 2000);
 
+    /* 
+      DOCUMENTACIÓN DEL ARRAY DE DEPENDENCIAS:
+      Se utiliza un array de dependencias vacío `[]` para que el efecto se ejecute 
+      únicamente una vez al montarse el componente.
+
+      ¿Qué pasaría si se omitiera el array de dependencias?
+      Si se omitiera, el efecto se ejecutaría en cada renderizado del componente. 
+      Esto provocaría que en cada actualización de estado (como al llamar a setLoading o setItems) 
+      se vuelvan a crear múltiples `setTimeout` acumulados, causando un bucle infinito de 
+      re-renders y un comportamiento errático en la aplicación.
+    */
+
     return () => clearTimeout(timer); // Limpieza de seguridad
   }, []); // Array de dependencias vacío
 
