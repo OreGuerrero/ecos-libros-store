@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 
-function ItemListContainer() {
+// 1. Recibimos la prop { greeting } aquí
+function ItemListContainer({ greeting }) {
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -20,7 +21,7 @@ function ItemListContainer() {
         const data = await response.json();
 
         const titulosLibros = [
-                'Don Quijote de la Mancha - Miguel de Cervantes',
+          'Don Quijote de la Mancha - Miguel de Cervantes',
           'La Divina Comedia - Dante Alighieri',
           'Crimen y Castigo - Fiódor Dostoyevski',
           'La Odisea - Homero',
@@ -108,7 +109,11 @@ function ItemListContainer() {
       boxSizing: 'border-box' 
     }}>
       <header style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-        <h2 style={{ fontSize: '2rem', color: '#1a1a1a', marginBottom: '0.5rem' }}>
+        {/* 2. Renderizamos el mensaje dinámico pasado por props */}
+        <h1 style={{ fontSize: '2.2rem', color: '#1d3557', marginBottom: '0.5rem', fontWeight: '700' }}>
+          {greeting}
+        </h1>
+        <h2 style={{ fontSize: '1.3rem', color: '#457b9d', marginTop: '0', fontWeight: '500' }}>
           Ecos Libros Store - Catálogo
         </h2>
         <p style={{ color: '#666', fontSize: '1.1rem' }}>

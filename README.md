@@ -8,6 +8,15 @@ Este repositorio contiene la estructura base para el proyecto final de e-commerc
 - **Vite**
 - **JavaScript (ES6+)**
 - **HTML5 & CSS3**
+- **React Icons**
+
+## 🧱 Estructura de Componentes
+
+El proyecto sigue una arquitectura modular en la carpeta `src/components`:
+
+- **`Navbar.jsx`**: Barra de navegación superior con branding, navegación por categorías de productos reales (*Obras Clásicas*, *Historia y Arqueología*, *Filosofía Antigua*, *Ediciones Ilustradas*) e integración del contenedor del carrito.
+- **`CartWidget.jsx`**: Componente hijo de la `Navbar` que incluye el ícono del carrito de compras y un indicador numérico estático de productos.
+- **`ItemListContainer.jsx`**: Componente contenedor para la vista principal que recibe un mensaje de bienvenida personalizado a través de `props` (`greeting`).
 
 ## 🚀 Instrucciones de Instalación y Ejecución
 
