@@ -4,11 +4,15 @@ import ItemListContainer from './components/ItemListContainer'
 import './App.css'
 
 function App() {
+  // Mantenemos el Popol Vuh pero con la estructura de propiedades del catálogo
   const libroEjemplo = {
-    titulo: "El Popol Vuh",
-    autor: "Anónimo / Tradición Maya",
-    precio: 18500,
-    imagen: "/popol.jpg"
+    id: 'destacado-1',
+    name: 'El Popol Vuh',
+    category: 'Tradición Maya / Mitología',
+    price: 18500,
+    img: '/popol.jpg', // Requiere tener el archivo en la carpeta public/popol.jpg
+    description: 'Texto sagrado maya que narra la creación del mundo y la historia de los dioses gemelos.',
+    stock: 5
   }
 
   return (
@@ -18,16 +22,15 @@ function App() {
 
       <main style={{ textAlign: 'center', padding: '2rem 1rem' }}>
         {/* Sección destacada con la tarjeta individual previa */}
-        <section className="catalog" style={{ marginBottom: '2rem' }}>
+        <section className="catalog" style={{ marginBottom: '2rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <h2 style={{ color: '#1d3557', fontSize: '1.2rem', marginBottom: '1rem' }}>
             Destacado de la Semana
           </h2>
-          <Item 
-            titulo={libroEjemplo.titulo}
-            autor={libroEjemplo.autor}
-            precio={libroEjemplo.precio}
-            imagen={libroEjemplo.imagen}
-          />
+
+          <div style={{ maxWidth: '320px', width: '100%' }}>
+            {/* Pasamos el objeto completo a la prop product */}
+            <Item product={libroEjemplo} />
+          </div>
         </section>
 
         <hr style={{ margin: '2rem auto', maxWidth: '1200px', borderColor: '#e0e0e0' }} />
