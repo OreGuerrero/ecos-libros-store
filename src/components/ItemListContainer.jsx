@@ -1,11 +1,15 @@
 import ItemList from './ItemList';
-import useProducts from '../hooks/useProducts';
+import { useProducts } from '../hooks/useProducts'; // <-- Se agregan llaves { }
 
 function ItemListContainer({ greeting }) {
-  // 1. Consumo directo del Custom Hook (sin useState ni useEffect locales)
-  const { products, loading, error } = useProducts('https://fakestoreapi.com/products');
+  // Consumo directo del hook
+  const res = useProducts('https://fakestoreapi.com/products');
 
-  // Constantes para transformar la data a libros en español
+  const products = res?.products || res?.data || res?.items || [];
+  const loading = res?.loading ?? res?.isLoading ?? false;
+  const error = res?.error || null;
+
+  // Constantes de mapeo
   const TIPO_CAMBIO_ARS = 1200;
 
   const titulosClasicos = [
@@ -18,17 +22,7 @@ function ItemListContainer({ greeting }) {
     'Hamlet - William Shakespeare',
     'En Busca del Tiempo Perdido - Marcel Proust',
     'Las Mil y Una Noches - Anónimo',
-    'El Retrato de Dorian Gray - Oscar Wilde',
-    'Los Miserables - Victor Hugo',
-    'Madame Bovary - Gustave Flaubert',
-    'El Gran Gatsby - F. Scott Fitzgerald',
-    'La Metamorfosis - Franz Kafka',
-    '1984 - George Orwell',
-    'El Principito - Antoine de Saint-Exupéry',
-    'Moby Dick - Herman Melville',
-    'La Ilíada - Homero',
-    'Guerra y Paz - León Tolstói',
-    'Fausto - Johann Wolfgang von Goethe'
+    'El Retrato de Dorian Gray - Oscar Wilde'
   ];
 
   const descripcionesClasicas = [
@@ -36,12 +30,7 @@ function ItemListContainer({ greeting }) {
     'Poema épico alegórico que recorre el viaje de Dante a través del Infierno, el Purgatorio y el Paraíso en busca de su amada Beatriz.',
     'Novela psicológica que explora los dilemas morales, la culpa y la búsqueda de redención del joven estudiante Rodión Raskólnikov.',
     'Poema épico atribuido a Homero que relata la convulsa travesía de Odiseo en su regreso a la isla de Ítaca tras la Guerra de Troya.',
-    'Obra maestra de las costumbres y los prejuicios sociales en la Inglaterra del siglo XIX a través de la relación entre Elizabeth Bennet y el Sr. Darcy.',
-    'La saga familiar de los Buendía en el pueblo mítico de Macondo, obra cumbre del realismo mágico hispanoamericano.',
-    'Tragedia shakesperiana centrada en las dudas, el dolor y la sed de venganza del príncipe de Dinamarca tras la muerte de su padre.',
-    'Obra monumental sobre la memoria, el tiempo, el arte y la sociedad francesa de la Belle Époque.',
-    'Famosa recopilación medieval de cuentos orientales narrados por la astuta Scheherezade para salvar su vida.',
-    'Novela filosófica sobre un joven que conserva la juventud eterna mientras su retrato oculta las huellas de su decadencia moral.'
+    'Obra maestra de las costumbres y los prejuicios sociales en la Inglaterra del siglo XIX a través de la relación entre Elizabeth Bennet y el Sr. Darcy.'
   ];
 
   const portadasLibros = [
@@ -49,31 +38,29 @@ function ItemListContainer({ greeting }) {
     'https://images.unsplash.com/photo-1512820790803-83ca734da794?w=400&auto=format&fit=crop&q=60',
     'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=400&auto=format&fit=crop&q=60',
     'https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&auto=format&fit=crop&q=60',
-    'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=400&auto=format&fit=crop&q=60',
-    'https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=400&auto=format&fit=crop&q=60'
+    'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=400&auto=format&fit=crop&q=60'
   ];
 
-  // Adaptación de los datos retornados por el hook
-  const productosAdaptados = products ? products.map((producto, index) => ({
-    id: String(producto.id),
-    name: titulosClasicos[index] || `Obra Clásica Vol. ${producto.id}`,
-    price: Math.round(producto.price * TIPO_CAMBIO_ARS),
-    img: portadasLibros[index % portadasLibros.length],
-    category: 'Obras Clásicas',
-    description: descripcionesClasicas[index % descripcionesClasicas.length],
-    stock: 10
-  })) : [];
+  const productosAdaptados = Array.isArray(products)
+    ? products.map((producto, index) => ({
+        id: String(producto.id),
+        name: titulosClasicos[index] || `Obra Clásica Vol. ${producto.id}`,
+        price: Math.round((producto.price || 10) * TIPO_CAMBIO_ARS),
+        img: portadasLibros[index % portadasLibros.length],
+        category: 'Obras Clásicas',
+        description: descripcionesClasicas[index % descripcionesClasicas.length],
+        stock: 10
+      }))
+    : [];
 
-  // 2. Interfaz Condicional usando 'loading'
   if (loading) {
     return (
       <div style={{ textAlign: 'center', padding: '4rem 1rem' }}>
-        <h3 style={{ color: '#1d3557', fontSize: '1.4rem' }}>Cargando catálogo de libros...</h3>
+        <h3 style={{ color: '#1d3557', fontSize: '1.4rem' }}>Cargando catálogo con Custom Hook...</h3>
       </div>
     );
   }
 
-  // 3. Interfaz Condicional usando 'error'
   if (error) {
     return (
       <div style={{ 
@@ -87,12 +74,11 @@ function ItemListContainer({ greeting }) {
         color: '#d90429' 
       }}>
         <h2 style={{ margin: '0 0 0.5rem 0' }}>¡Atención!</h2>
-        <p style={{ margin: 0 }}>{error}</p>
+        <p style={{ margin: 0 }}>{String(error)}</p>
       </div>
     );
   }
 
-  // 4. Renderizado principal
   return (
     <main style={{ maxWidth: '1200px', margin: '0 auto', padding: '2rem 1rem', boxSizing: 'border-box' }}>
       <header style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
