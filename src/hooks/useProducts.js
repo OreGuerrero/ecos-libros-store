@@ -66,11 +66,13 @@ export function useProducts(url) {
           const precioARS = Math.round(item.price * TIPO_CAMBIO_ARS);
 
           return {
-            id: item.id,
-            title: clasicosUniversales[index] || `Clásico Universal Vol. ${item.id}`,
-            priceARS: precioARS.toLocaleString('es-AR'),
-            image: portadasClasicas[index % portadasClasicas.length],
-            description: item.description
+            id: String(item.id),
+            name: clasicosUniversales[index] || `Clásico Universal Vol. ${item.id}`,
+            price: precioARS,
+            category: 'Obras Clásicas',
+            img: portadasClasicas[index % portadasClasicas.length],
+            description: item.description,
+            stock: 10
           };
         });
 
@@ -87,3 +89,5 @@ export function useProducts(url) {
 
   return { products, loading, error };
 }
+
+export default useProducts;

@@ -1,7 +1,7 @@
 import Item from './Item';
-import '../styles/ItemList.css'; // Importación de estilos externos
+import '../styles/ItemList.css';
 
-function ItemList({ products }) {
+function ItemList({ products = [] }) {
   return (
     <div className="item-list-grid">
       {products.map((product) => (
