@@ -4,22 +4,16 @@ import { BsCartPlus } from 'react-icons/bs';
 import '../styles/Item.css';
 
 function Item({ product }) {
+  // Desestructuración unificada directa
   const { 
-    name, 
-    price, 
-    img, 
+    name = 'Libro sin título', 
+    price = 0, 
+    img = '', 
     category, 
     description, 
     stock,
-    titulo,
-    autor,
-    precio,
-    imagen
+    autor 
   } = product || {};
-
-  const itemTitulo = name || titulo || 'Libro sin título';
-  const itemPrecio = price || precio || 0;
-  const itemImagen = img || imagen || '';
 
   const [cantidad, setCantidad] = useState(1);
   const [esFavorito, setEsFavorito] = useState(false);
@@ -58,8 +52,8 @@ function Item({ product }) {
       <div>
         <div className="book-image-container">
           <img 
-            src={itemImagen} 
-            alt={`Portada de ${itemTitulo}`} 
+            src={img} 
+            alt={`Portada de ${name}`} 
             className="book-cover"
           />
         </div>
@@ -71,7 +65,7 @@ function Item({ product }) {
         )}
 
         <h2 className="book-title">
-          {itemTitulo}
+          {name}
         </h2>
         
         {autor && <p className="book-author">{autor}</p>}
@@ -80,7 +74,7 @@ function Item({ product }) {
 
       <div className="book-card-footer">
         <p className="book-price">
-          $ {itemPrecio.toLocaleString('es-AR')} ARS
+          $ {typeof price === 'number' ? price.toLocaleString('es-AR') : price} ARS
         </p>
 
         {stock && (
