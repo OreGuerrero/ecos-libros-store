@@ -5,9 +5,16 @@ import '../styles/ItemDetail.css'; // Importación de los estilos CSS
 function ItemDetail({ product }) {
   const [quantityAdded, setQuantityAdded] = useState(0);
 
+  // Protección defensiva para evitar errores si product aún no cargó
+  if (!product) {
+    return null;
+  }
+
+  const { name, price, img, category, description, stock } = product;
+
   const handleOnAdd = (quantity) => {
     setQuantityAdded(quantity);
-    console.log(`Se agregaron ${quantity} unidades del libro: ${product.name}`);
+    console.log(`Se agregaron ${quantity} unidades del libro: ${name}`);
   };
 
   return (
@@ -15,8 +22,8 @@ function ItemDetail({ product }) {
       {/* Columna 1: Imagen principal */}
       <div className="detail-image-container">
         <img 
-          src={product.img} 
-          alt={product.name} 
+          src={img} 
+          alt={name} 
           className="detail-image"
         />
       </div>
@@ -25,23 +32,23 @@ function ItemDetail({ product }) {
       <div className="detail-info">
         <div>
           <span className="detail-category">
-            {product.category}
+            {category}
           </span>
 
           <h2 className="detail-title">
-            {product.name}
+            {name}
           </h2>
 
           <p className="detail-price">
-            $ {product.price?.toLocaleString('es-AR')} ARS
+            $ {typeof price === 'number' ? price.toLocaleString('es-AR') : price} ARS
           </p>
 
           <p className="detail-description">
-            {product.description}
+            {description}
           </p>
 
-          <p className={`detail-stock ${product.stock > 0 ? 'in-stock' : 'out-of-stock'}`}>
-            {product.stock > 0 ? `Stock disponible: ${product.stock} unidades` : 'Sin stock disponible'}
+          <p className={`detail-stock ${stock > 0 ? 'in-stock' : 'out-of-stock'}`}>
+            {stock > 0 ? `Stock disponible: ${stock} unidades` : 'Sin stock disponible'}
           </p>
         </div>
 
@@ -52,7 +59,7 @@ function ItemDetail({ product }) {
               ✓ ¡Agregaste {quantityAdded} ejemplares al carrito!
             </p>
           ) : (
-            <ItemCount stock={product.stock} initial={1} onAdd={handleOnAdd} />
+            <ItemCount stock={stock} initial={1} onAdd={handleOnAdd} />
           )}
         </div>
       </div>

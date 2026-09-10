@@ -20,7 +20,7 @@ function ItemCount({ stock = 0, initial = 1, onAdd }) {
       <div style={{
         display: 'flex',
         alignItems: 'center',
-        justify: 'space-between',
+        justifyContent: 'space-between', // Corregido de 'justify' a 'justifyContent'
         border: '1px solid #ccc',
         borderRadius: '6px',
         padding: '0.3rem 0.8rem'
