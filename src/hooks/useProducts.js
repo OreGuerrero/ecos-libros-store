@@ -2,10 +2,13 @@ import { useState, useEffect } from 'react';
 
 /**
  * Custom Hook para gestionar la carga asíncrona de productos desde Fake Store API.
+ * Encapsula la llamada a la API, el manejo de errores (incluyendo response.ok) y los estados de carga.
+ * 
  * @param {string} url - La URL del endpoint de la API.
  * @returns {{ items: Array, isLoading: boolean, error: string|null }}
  */
 export function useProducts(url) {
+  // Manejo de estados principales exigidos por la consigna
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -18,16 +21,18 @@ export function useProducts(url) {
         setIsLoading(true);
         setError(null);
 
+        // Petición a la API externa
         const response = await fetch(url);
 
-        // Verificación explícita de response.ok
+        // Verificación explícita de response.ok para capturar errores HTTP (404/500)
         if (!response.ok) {
           throw new Error(`Error en la petición: ${response.status} ${response.statusText}`);
         }
 
+        // Conversión asíncrona de la respuesta a JSON
         const data = await response.json();
 
-        // Obras cumbres de la literatura universal
+        // Obras cumbres de la literatura universal (Titulos adaptados)
         const clasicosUniversales = [
           'Don Quijote de la Mancha - Miguel de Cervantes',
           'La Divina Comedia - Dante Alighieri',
@@ -51,7 +56,7 @@ export function useProducts(url) {
           'Fausto - Johann Wolfgang von Goethe'
         ];
 
-        // Descripciones resumidas y precisas en español
+        // Descripciones resumidas y concisas en español
         const descripcionesBreves = [
           'Aventuras del hidalgo Don Quijote y su fiel escudero Sancho Panza.',
           'Viaje alegórico a través del Infierno, el Purgatorio y el Paraíso.',
@@ -87,6 +92,7 @@ export function useProducts(url) {
 
         const TIPO_CAMBIO_ARS = 1200;
 
+        // Mapeo dinámico combinando los datos de la API con los textos adaptados
         const librosAdaptados = data.map((item, index) => {
           const precioARS = Math.round(item.price * TIPO_CAMBIO_ARS);
 
@@ -103,8 +109,10 @@ export function useProducts(url) {
 
         setItems(librosAdaptados);
       } catch (err) {
+        // Captura de errores de red o devueltos por throw new Error
         setError(err.message || 'Ocurrió un error al obtener el catálogo de clásicos');
       } finally {
+        // Garantiza que la pantalla de carga se remueva tanto si sale bien como si falla
         setIsLoading(false);
       }
     };
@@ -112,6 +120,7 @@ export function useProducts(url) {
     fetchProductos();
   }, [url]);
 
+  // Retorno explícito de los tres estados solicitados por el ejercicio
   return { items, isLoading, error };
 }
 
