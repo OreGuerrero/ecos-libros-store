@@ -1,28 +1,32 @@
 import { Link } from 'react-router-dom';
+import ItemListContainer from '../components/ItemListContainer';
+import Item from '../components/Item';
 
 function Home() {
+  const libroEjemplo = {
+    id: 'destacado-1',
+    name: 'El Popol Vuh',
+    category: 'Tradición Maya / Mitología',
+    price: 18500,
+    img: '/popol.jpg',
+    description: 'Texto sagrado maya que narra la creación del mundo y la historia de los dioses gemelos.',
+    stock: 5
+  };
+
   return (
-    <main style={{ textAlign: 'center', padding: '3rem 1rem', maxWidth: '800px', margin: '0 auto' }}>
-      <h1 style={{ color: '#1d3557', fontSize: '2.5rem', marginBottom: '1rem' }}>
-        Bienvenido a Ecos Libros Store
-      </h1>
-      <p style={{ color: '#457b9d', fontSize: '1.2rem', lineHeight: '1.6', marginBottom: '2rem' }}>
-        Explorá nuestra colección seleccionada de obras cumbres de la literatura universal, poesía épica y filosofía clásica.
-      </p>
-      <Link 
-        to="/productos" 
-        style={{
-          display: 'inline-block',
-          padding: '0.8rem 1.8rem',
-          backgroundColor: '#e63946',
-          color: '#ffffff',
-          borderRadius: '6px',
-          textDecoration: 'none',
-          fontWeight: 'bold'
-        }}
-      >
-        Ver Catálogo Completo
-      </Link>
+    <main style={{ textAlign: 'center', padding: '2rem 1rem' }}>
+      <section className="catalog" style={{ marginBottom: '2rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <h2 style={{ color: '#1d3557', fontSize: '1.4rem', marginBottom: '1rem' }}>
+          Destacado de la Semana
+        </h2>
+        <div style={{ maxWidth: '320px', width: '100%' }}>
+          <Item product={libroEjemplo} />
+        </div>
+      </section>
+
+      <hr style={{ margin: '2rem auto', maxWidth: '1200px', borderColor: '#e0e0e0' }} />
+
+      <ItemListContainer greeting="¡Bienvenidos a Ecos Libros Store!" />
     </main>
   );
 }

@@ -8,10 +8,19 @@ El proyecto permite visualizar un catálogo de productos obtenido de forma diná
 
 * React
 * Vite
+* React Router DOM v7** (`react-router-dom`)
 * JavaScript (ES6+)
 * CSS3
 * React Icons
 * Fake Store API
+
+## 🗺️ Mapa de Rutas Configurado
+- `/` - **Home**: Muestra el libro destacado de la semana y el catálogo general de bienvenida.
+- `/productos` - **Catálogo Completo**: Muestra el catálogo con todos los productos disponibles.
+- `/category/:categoryId` - **Categoría**: Muestra el catálogo filtrado dinámicamente por la categoría seleccionada.
+- `/item/:id` - **Detalle del Producto**: Carga la vista extendida del producto según su ID.
+- `/detalle` - **Vista previa**: Ruta temporal informativa de "Próximamente detalle de producto".
+- `*` - **Ruta 404**: Muestra la vista `NotFound` cuando se ingresa una URL inexistente, ofreciendo un enlace de regreso al Inicio.
 
 ## 📁 Estructura del proyecto
 
