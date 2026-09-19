@@ -1,12 +1,13 @@
+import { Link, NavLink } from 'react-router-dom';
 import CartWidget from './CartWidget';
 
 function Navbar() {
   // Categorías basadas en los productos reales de Ecos Libros Store
   const categorias = [
-    'Obras Clásicas',
-    'Historia y Arqueología',
-    'Filosofía Antigua',
-    'Ediciones Ilustradas'
+    { name: 'Obras Clásicas', id: 'obras-clasicas' },
+    { name: 'Historia y Arqueología', id: 'historia-y-arqueologia' },
+    { name: 'Filosofía Antigua', id: 'filosofia-antigua' },
+    { name: 'Ediciones Ilustradas', id: 'ediciones-ilustradas' }
   ];
 
   return (
@@ -19,12 +20,20 @@ function Navbar() {
       borderBottom: '2px solid #e9ecef',
       boxShadow: '0 2px 4px rgba(0,0,0,0.05)'
     }}>
-      {/* Branding / Logo */}
-      <div style={{ fontSize: '1.4rem', fontWeight: 'bold', color: '#1d3557' }}>
+      {/* Branding / Logo redirecciona al Inicio */}
+      <Link 
+        to="/" 
+        style={{ 
+          fontSize: '1.4rem', 
+          fontWeight: 'bold', 
+          color: '#1d3557',
+          textDecoration: 'none' 
+        }}
+      >
         📚 Ecos Libros Store
-      </div>
+      </Link>
 
-      {/* Categorías de productos */}
+      {/* Categorías de productos navegables sin recarga */}
       <ul style={{
         display: 'flex',
         listStyle: 'none',
@@ -32,19 +41,37 @@ function Navbar() {
         margin: 0,
         padding: 0
       }}>
-        {categorias.map((cat, index) => (
-          <li key={index}>
-            <a 
-              href={`#${cat.toLowerCase().replace(/\s+/g, '-')}`} 
-              style={{
+        <li>
+          <NavLink
+            to="/"
+            style={({ isActive }) => ({
+              textDecoration: 'none',
+              color: isActive ? '#e63946' : '#495057',
+              fontWeight: isActive ? 'bold' : '500',
+              borderBottom: isActive ? '2px solid #e63946' : 'none',
+              paddingBottom: '0.2rem',
+              transition: 'color 0.2s'
+            })}
+          >
+            Inicio
+          </NavLink>
+        </li>
+
+        {categorias.map((cat) => (
+          <li key={cat.id}>
+            <NavLink 
+              to={`/category/${cat.id}`} 
+              style={({ isActive }) => ({
                 textDecoration: 'none',
-                color: '#495057',
-                fontWeight: '500',
+                color: isActive ? '#e63946' : '#495057',
+                fontWeight: isActive ? 'bold' : '500',
+                borderBottom: isActive ? '2px solid #e63946' : 'none',
+                paddingBottom: '0.2rem',
                 transition: 'color 0.2s'
-              }}
+              })}
             >
-              {cat}
-            </a>
+              {cat.name}
+            </NavLink>
           </li>
         ))}
       </ul>

@@ -1,0 +1,13 @@
+.nav-link {
+  text-decoration: none;
+  color: #1d3557;
+  font-weight: 500;
+  padding: 0.4rem 0.8rem;
+  transition: color 0.2s ease, border-bottom 0.2s ease;
+}
+
+.nav-link.active {
+  color: #e63946;
+  font-weight: 700;
+  border-bottom: 2px solid #e63946;
+}
