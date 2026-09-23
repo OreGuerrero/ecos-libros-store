@@ -1,11 +1,12 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import { BsCartPlus } from 'react-icons/bs';
 import '../styles/Item.css';
 
 function Item({ product }) {
-  // Desestructuración unificada directa
   const { 
+    id,
     name = 'Libro sin título', 
     price = 0, 
     img = '', 
@@ -36,7 +37,6 @@ function Item({ product }) {
 
   return (
     <article className="book-card">
-      {/* Botón de Favorito */}
       <button 
         onClick={toggleFavorito} 
         className="btn-favorite"
@@ -49,28 +49,30 @@ function Item({ product }) {
         )}
       </button>
 
-      <div>
-        <div className="book-image-container">
-          <img 
-            src={img} 
-            alt={`Portada de ${name}`} 
-            className="book-cover"
-          />
-        </div>
-        
-        {category && (
-          <span className="book-category">
-            {category}
-          </span>
-        )}
+      <Link to={`/item/${id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+        <div>
+          <div className="book-image-container">
+            <img 
+              src={img} 
+              alt={`Portada de ${name}`} 
+              className="book-cover"
+            />
+          </div>
+          
+          {category && (
+            <span className="book-category">
+              {category}
+            </span>
+          )}
 
-        <h2 className="book-title">
-          {name}
-        </h2>
-        
-        {autor && <p className="book-author">{autor}</p>}
-        {description && <p className="book-description">{description}</p>}
-      </div>
+          <h2 className="book-title">
+            {name}
+          </h2>
+          
+          {autor && <p className="book-author">{autor}</p>}
+          {description && <p className="book-description">{description}</p>}
+        </div>
+      </Link>
 
       <div className="book-card-footer">
         <p className="book-price">
@@ -83,7 +85,6 @@ function Item({ product }) {
           </p>
         )}
 
-        {/* Controles de Cantidad */}
         <div className="counter-controls">
           <button onClick={decrementar} className="btn-counter">
             -
@@ -94,8 +95,7 @@ function Item({ product }) {
           </button>
         </div>
 
-        {/* Botón Agregar al Carrito */}
-        <button className="btn-add">
+        <button className="btn-add" type="button">
           <BsCartPlus size={18} />
           Agregar al carrito
         </button>

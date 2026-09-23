@@ -22,6 +22,17 @@ El proyecto permite visualizar un catálogo de productos obtenido de forma diná
 - `/detalle` - **Vista previa**: Ruta temporal informativa de "Próximamente detalle de producto".
 - `*` - **Ruta 404**: Muestra la vista `NotFound` cuando se ingresa una URL inexistente, ofreciendo un enlace de regreso al Inicio.
 
+## ✅ Navegación y experiencia de e-commerce
+
+La aplicación ya incorpora la capa de navegación funcional del checkpoint de routing:
+
+- `Navbar` con enlaces de categoría usando `NavLink`.
+- Listado dinámico que reacciona al parámetro `categoryId` de la URL.
+- Vistas de detalle por producto con `useParams` y carga por id.
+- Enlaces de acceso interno con `Link`, sin recargas de página completas.
+- Layout persistente con navbar y footer visibles en todas las rutas.
+- Ruta 404 para URLs no encontradas.
+
 ## 📁 Estructura del proyecto
 
 La aplicación está organizada mediante componentes y archivos separados según su responsabilidad:
@@ -29,19 +40,30 @@ La aplicación está organizada mediante componentes y archivos separados según
 ```text
 src/
 ├── components/
-│   ├── Item/
-│   ├── ItemList/
-│   └── ItemListContainer/
+│   ├── CartWidget.jsx
+│   ├── Item.jsx
+│   ├── ItemDetail.jsx
+│   ├── ItemDetailContainer.jsx
+│   ├── ItemList.jsx
+│   ├── ItemListContainer.jsx
+│   └── Navbar.jsx
 │
 ├── hooks/
 │   └── useProducts.js
 │
-├── mock/
-│   └── asyncMock.js
+├── pages/
+│   ├── Home.jsx
+│   └── NotFound.jsx
 │
-└── styles/
-    └── archivos CSS
-```
+├── services/
+│   ├── asyncMock.js
+│   └── getProductById.js
+│
+├── styles/
+│   └── archivos CSS
+│
+├── App.jsx
+└── main.jsx
 
 Esta organización permite mantener el código dividido en diferentes componentes y facilita su mantenimiento y reutilización.
 

@@ -1,20 +1,21 @@
 import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { getProductById } from '../mock/asyncMock';
 import ItemDetail from './ItemDetail';
 
 function ItemDetailContainer() {
+  const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    if (!id) return;
+
     setIsLoading(true);
     setError(null);
 
-    // Por ahora definimos temporalmente el ID '1' ( Don Quijote ). En el próximo módulo vendrá desde useParams() de la URL.
-    const productIdToFetch = '1';
-
-    getProductById(productIdToFetch)
+    getProductById(id)
       .then((response) => {
         setProduct(response);
       })
@@ -24,7 +25,7 @@ function ItemDetailContainer() {
       .finally(() => {
         setIsLoading(false);
       });
-  }, []);
+  }, [id]);
 
   if (isLoading) {
     return (
