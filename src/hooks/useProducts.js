@@ -90,7 +90,7 @@ export function useProducts(url) {
           'https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=400&auto=format&fit=crop&q=60'
         ];
 
-        const TIPO_CAMBIO_ARS = 1200;
+        const TIPO_CAMBIO_ARS = 1500;
 
         // Mapeo dinámico combinando los datos de la API con los textos adaptados
         const librosAdaptados = data.map((item, index) => {

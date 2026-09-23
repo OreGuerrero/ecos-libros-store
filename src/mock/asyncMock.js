@@ -3,7 +3,7 @@ export const products = [
   {
     id: '1',
     name: 'Don Quijote de la Mancha',
-    price: 24000,
+    price: 34000,
     category: 'Obras Clásicas',
     img: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=400&auto=format&fit=crop&q=60',
     stock: 12,
@@ -12,7 +12,7 @@ export const products = [
   {
     id: '2',
     name: 'La Divina Comedia',
-    price: 22000,
+    price: 32000,
     category: 'Obras Clásicas',
     img: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?w=400&auto=format&fit=crop&q=60',
     stock: 8,
@@ -21,7 +21,7 @@ export const products = [
   {
     id: '3',
     name: 'Crimen y Castigo',
-    price: 21500,
+    price: 31000,
     category: 'Obras Clásicas',
     img: 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=400&auto=format&fit=crop&q=60',
     stock: 15,
@@ -30,7 +30,7 @@ export const products = [
   {
     id: '4',
     name: 'La Odisea',
-    price: 19800,
+    price: 28500,
     category: 'Historia y Arqueología',
     img: 'https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&auto=format&fit=crop&q=60',
     stock: 10,
@@ -39,7 +39,7 @@ export const products = [
   {
     id: '5',
     name: 'Orgullo y Prejuicio',
-    price: 18500,
+    price: 27000,
     category: 'Obras Clásicas',
     img: 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=400&auto=format&fit=crop&q=60',
     stock: 20,
