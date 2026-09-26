@@ -5,9 +5,7 @@ function Navbar() {
   // Categorías basadas en los productos reales de Ecos Libros Store
   const categorias = [
     { name: 'Obras Clásicas', id: 'obras-clasicas' },
-    { name: 'Historia y Arqueología', id: 'historia-y-arqueologia' },
-    { name: 'Filosofía Antigua', id: 'filosofia-antigua' },
-    { name: 'Ediciones Ilustradas', id: 'ediciones-ilustradas' }
+    { name: 'Historia y Arqueología', id: 'historia-y-arqueologia' }
   ];
 
   return (
