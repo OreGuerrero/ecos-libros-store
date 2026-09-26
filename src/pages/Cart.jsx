@@ -9,7 +9,7 @@ function formatPrice(price) {
 }
 
 function Cart() {
-  const { cart, removeItem, totalItems } = useCart();
+  const { cart, removeItem, clear, totalItems } = useCart();
   const [checkoutMessage, setCheckoutMessage] = useState('');
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
@@ -71,6 +71,13 @@ function Cart() {
             onClick={() => setCheckoutMessage('La compra estará disponible próximamente.')}
           >
             Finalizar compra
+          </button>
+          <button
+            className="cart-clear-button"
+            type="button"
+            onClick={clear}
+          >
+            Vaciar carrito
           </button>
           {checkoutMessage && <p className="cart-checkout-message" role="status">{checkoutMessage}</p>}
         </aside>

@@ -142,6 +142,18 @@
   text-decoration: none;
 }
 
+.cart-clear-button {
+  width: 100%;
+  margin-top: 0.75rem;
+  padding: 0.7rem 1rem;
+  border: 1px solid #a12f38;
+  background: #fff;
+  color: #a12f38;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+}
+
 .cart-checkout-message {
   margin: 0.75rem 0 0;
   color: #1d6a68;
