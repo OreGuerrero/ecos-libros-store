@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import ItemCount from './ItemCount';
+import { useCart } from '../context/useCart';
 import '../styles/ItemDetail.css'; // Importación de los estilos CSS
 
 function ItemDetail({ product }) {
   const [quantityAdded, setQuantityAdded] = useState(0);
+  const { addItem } = useCart();
 
   // Protección defensiva para evitar errores si product aún no cargó
   if (!product) {
@@ -13,8 +15,8 @@ function ItemDetail({ product }) {
   const { name, price, img, category, description, stock } = product;
 
   const handleOnAdd = (quantity) => {
+    addItem(product, quantity);
     setQuantityAdded(quantity);
-    console.log(`Se agregaron ${quantity} unidades del libro: ${name}`);
   };
 
   return (
@@ -55,8 +57,8 @@ function ItemDetail({ product }) {
         {/* Reutilización del contador con el stock dinámico */}
         <div>
           {quantityAdded > 0 ? (
-            <p className="detail-success-msg">
-              ✓ ¡Agregaste {quantityAdded} ejemplares al carrito!
+            <p className="detail-success-msg" role="status">
+              ✓ ¡Agregaste {quantityAdded} {quantityAdded === 1 ? 'ejemplar' : 'ejemplares'} al carrito!
             </p>
           ) : (
             <ItemCount stock={stock} initial={1} onAdd={handleOnAdd} />

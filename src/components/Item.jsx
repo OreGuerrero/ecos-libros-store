@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import { BsCartPlus } from 'react-icons/bs';
+import { useCart } from '../context/useCart';
 import '../styles/Item.css';
 
 function Item({ product }) {
@@ -16,8 +17,10 @@ function Item({ product }) {
     autor 
   } = product || {};
 
+  const { addItem } = useCart();
   const [cantidad, setCantidad] = useState(1);
   const [esFavorito, setEsFavorito] = useState(false);
+  const [addedQuantity, setAddedQuantity] = useState(0);
 
   const decrementar = () => {
     if (cantidad > 1) {
@@ -26,9 +29,15 @@ function Item({ product }) {
   };
 
   const incrementar = () => {
-    if (!stock || cantidad < stock) {
+    if (cantidad < stock) {
       setCantidad(prev => prev + 1);
     }
+  };
+
+  const agregarAlCarrito = () => {
+    if (!id || !Number.isInteger(cantidad) || cantidad <= 0 || cantidad > stock) return;
+    addItem(product, cantidad);
+    setAddedQuantity(cantidad);
   };
 
   const toggleFavorito = () => {
@@ -95,10 +104,15 @@ function Item({ product }) {
           </button>
         </div>
 
-        <button className="btn-add" type="button">
+        <button className="btn-add" type="button" onClick={agregarAlCarrito} disabled={!stock || cantidad > stock}>
           <BsCartPlus size={18} />
           Agregar al carrito
         </button>
+        {addedQuantity > 0 && (
+          <p role="status" style={{ color: '#2a9d8f', margin: '0.5rem 0 0' }}>
+            Se agregaron {addedQuantity} {addedQuantity === 1 ? 'unidad' : 'unidades'} al carrito.
+          </p>
+        )}
       </div>
     </article>
   );

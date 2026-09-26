@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import NotFound from './pages/NotFound';
 import ItemListContainer from './components/ItemListContainer';
 import ItemDetailContainer from './components/ItemDetailContainer';
+import Cart from './pages/Cart';
 import './App.css';
 
 function App() {
@@ -14,6 +15,8 @@ function App() {
       <main style={{ flex: 1 }}>
         <Routes>
           <Route path="/" element={<Home />} />
+
+          <Route path="/cart" element={<Cart />} />
 
           <Route 
             path="/productos" 
