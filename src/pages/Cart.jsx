@@ -13,6 +13,12 @@ function Cart() {
   const [checkoutMessage, setCheckoutMessage] = useState('');
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
+  const handleClear = () => {
+    if (window.confirm('¿Seguro que querés vaciar el carrito?')) {
+      clear();
+    }
+  };
+
   if (cart.length === 0) {
     return (
       <div className="cart-page cart-empty">
@@ -75,7 +81,7 @@ function Cart() {
           <button
             className="cart-clear-button"
             type="button"
-            onClick={clear}
+            onClick={handleClear}
           >
             Vaciar carrito
           </button>
