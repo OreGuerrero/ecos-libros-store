@@ -1,11 +1,29 @@
-import { Routes, Route } from 'react-router-dom';
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import NotFound from './pages/NotFound';
+import Auth from './pages/Auth';
+import Checkout from './pages/Checkout';
 import ItemListContainer from './components/ItemListContainer';
 import ItemDetailContainer from './components/ItemDetailContainer';
 import Cart from './pages/Cart';
+import { useAuth } from './context/useAuth';
 import './App.css';
+
+function ProtectedRoute({ children }) {
+  const { currentUser, isAuthLoading } = useAuth();
+  const location = useLocation();
+
+  if (isAuthLoading) {
+    return <p style={{ padding: '2rem', textAlign: 'center' }}>Verificando sesión...</p>;
+  }
+
+  if (!currentUser) {
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+
+  return children;
+}
 
 function App() {
   return (
@@ -17,6 +35,16 @@ function App() {
           <Route path="/" element={<Home />} />
 
           <Route path="/cart" element={<Cart />} />
+          <Route path="/login" element={<Auth mode="login" />} />
+          <Route path="/register" element={<Auth mode="register" />} />
+          <Route
+            path="/checkout"
+            element={
+              <ProtectedRoute>
+                <Checkout />
+              </ProtectedRoute>
+            }
+          />
 
           <Route 
             path="/productos" 

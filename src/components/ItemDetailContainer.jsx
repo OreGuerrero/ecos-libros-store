@@ -1,30 +1,33 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { getProductById } from '../mock/asyncMock';
+import { getProductById } from '../services/getProductById';
 import ItemDetail from './ItemDetail';
 
 function ItemDetailContainer() {
   const { id } = useParams();
-  const [product, setProduct] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [result, setResult] = useState({ id: null, product: null, error: null });
+  const isLoading = result.id !== id;
+  const product = isLoading ? null : result.product;
+  const error = isLoading ? null : result.error;
 
   useEffect(() => {
-    if (!id) return;
+    let isActive = true;
 
-    setIsLoading(true);
-    setError(null);
+    const fetchProduct = async () => {
+      try {
+        const response = await getProductById(id);
+        if (isActive) setResult({ id, product: response, error: null });
+      } catch (err) {
+        if (isActive) {
+          setResult({ id, product: null, error: err.message || 'No se pudo cargar el producto' });
+        }
+      }
+    };
 
-    getProductById(id)
-      .then((response) => {
-        setProduct(response);
-      })
-      .catch((err) => {
-        setError(err.message || 'No se pudo cargar el producto');
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+    fetchProduct();
+    return () => {
+      isActive = false;
+    };
   }, [id]);
 
   if (isLoading) {

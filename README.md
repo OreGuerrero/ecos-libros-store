@@ -1,202 +1,106 @@
-# 📚 Ecos Libros Store
+# Ecos Libros Store
 
-E-commerce de literatura clásica desarrollado con React y Vite como parte del curso de React en Coderhouse.
+E-commerce de libros desarrollado con React, Vite y Firebase. El catálogo se consulta desde Cloud Firestore, la sesión se administra con Firebase Authentication y las compras se guardan como órdenes asociadas al usuario.
 
-El proyecto permite visualizar un catálogo de productos obtenido de forma dinámica mediante una API, gestionar los estados de carga y error, y mostrar la información de los productos mediante componentes reutilizables.
+## Tecnologías
 
-## 🛠️ Tecnologías utilizadas
+- React 19 y Vite
+- React Router
+- Firebase Authentication (email y contraseña)
+- Cloud Firestore
+- React Icons
 
-* React
-* Vite
-* React Router DOM v7** (`react-router-dom`)
-* JavaScript (ES6+)
-* CSS3
-* React Icons
-* Fake Store API
+## Requisitos
 
-## 🗺️ Mapa de Rutas Configurado
-- `/` - **Home**: Muestra el libro destacado de la semana y el catálogo general de bienvenida.
-- `/productos` - **Catálogo Completo**: Muestra el catálogo con todos los productos disponibles.
-- `/category/:categoryId` - **Categoría**: Muestra el catálogo filtrado dinámicamente por la categoría seleccionada.
-- `/item/:id` - **Detalle del Producto**: Carga la vista extendida del producto según su ID.
-- `/detalle` - **Vista previa**: Ruta temporal informativa de "Próximamente detalle de producto".
-- `*` - **Ruta 404**: Muestra la vista `NotFound` cuando se ingresa una URL inexistente, ofreciendo un enlace de regreso al Inicio.
+- Node.js y npm
+- Un proyecto de Firebase con Cloud Firestore y el proveedor Email/Password habilitados
 
-## ✅ Navegación y experiencia de e-commerce
-
-La aplicación ya incorpora la capa de navegación funcional del checkpoint de routing:
-
-- `Navbar` con enlaces de categoría usando `NavLink`.
-- Listado dinámico que reacciona al parámetro `categoryId` de la URL.
-- Vistas de detalle por producto con `useParams` y carga por id.
-- Enlaces de acceso interno con `Link`, sin recargas de página completas.
-- Layout persistente con navbar y footer visibles en todas las rutas.
-- Ruta 404 para URLs no encontradas.
-
-## 📁 Estructura del proyecto
-
-La aplicación está organizada mediante componentes y archivos separados según su responsabilidad:
-
-```text
-src/
-├── components/
-│   ├── CartWidget.jsx
-│   ├── Item.jsx
-│   ├── ItemDetail.jsx
-│   ├── ItemDetailContainer.jsx
-│   ├── ItemList.jsx
-│   ├── ItemListContainer.jsx
-│   └── Navbar.jsx
-│
-├── hooks/
-│   └── useProducts.js
-│
-├── pages/
-│   ├── Home.jsx
-│   └── NotFound.jsx
-│
-├── services/
-│   ├── asyncMock.js
-│   └── getProductById.js
-│
-├── styles/
-│   └── archivos CSS
-│
-├── App.jsx
-└── main.jsx
-
-Esta organización permite mantener el código dividido en diferentes componentes y facilita su mantenimiento y reutilización.
-
-## 🔄 Consumo de datos
-
-El catálogo de productos se obtiene utilizando **Fake Store API**:
-
-```text
-https://fakestoreapi.com/products
-```
-
-Para realizar la petición se utiliza `fetch` junto con `async/await`.
-
-La lógica de obtención de productos se encuentra separada de los componentes mediante el Custom Hook `useProducts`.
-
-## ⏳ Manejo de carga y errores
-
-La aplicación contempla diferentes estados durante la consulta de los productos.
-
-Se utiliza:
-
-* `isLoading` para indicar que los productos están siendo cargados.
-* `error` para informar cuando ocurre un problema durante la petición.
-* `try/catch` para controlar posibles errores.
-* `response.ok` para verificar que la respuesta de la API sea correcta.
-
-De esta manera, la interfaz puede mostrar información diferente dependiendo del estado de la petición.
-
-## 🧩 Componentes
-
-### Item
-
-Se encarga de representar individualmente cada producto del catálogo.
-
-### ItemList
-
-Recibe la lista de productos y utiliza `.map()` para generar un componente `Item` por cada producto.
-
-Cada elemento utiliza su identificador como `key`:
-
-```jsx
-key={product.id}
-```
-
-Esto permite que React identifique correctamente cada elemento de la lista.
-
-### ItemListContainer
-
-Funciona como contenedor de la lista de productos y coordina la información que se muestra en la interfaz.
-
-## 🪝 Custom Hook
-
-El proyecto utiliza el Custom Hook:
-
-```text
-useProducts
-```
-
-Su objetivo es separar la lógica relacionada con la obtención de productos de los componentes visuales.
-
-Esto permite mantener los componentes más simples y reutilizar la lógica cuando sea necesario.
-
-## 🎨 Estilos
-
-Los estilos de la aplicación están organizados en archivos CSS independientes para mantener separada la estructura de los componentes de su presentación visual.
-
-Se utilizan propiedades de CSS como:
-
-* Flexbox
-* Grid
-* Márgenes y espaciados
-* Tipografías
-* Diseño responsive
-
-## 🚀 Instalación y ejecución
-
-Para ejecutar el proyecto de manera local:
-
-### 1. Clonar el repositorio
-
-```bash
-git clone https://github.com/OreGuerrero/ecos-libros-store.git
-```
-
-### 2. Ingresar a la carpeta del proyecto
-
-```bash
-cd ecos-libros-store
-```
-
-### 3. Instalar las dependencias
+## Instalación y ejecución
 
 ```bash
 npm install
 ```
 
-### 4. Ejecutar el servidor de desarrollo
+Copiá `.env.example` a `.env` y completá los valores de la aplicación web de Firebase. No publiques `.env`.
 
 ```bash
 npm run dev
 ```
 
-### 5. Abrir la aplicación
+Para validar el proyecto:
 
-Vite indicará en la terminal la dirección local donde se encuentra disponible la aplicación.
-
-Habitualmente es:
-
-```text
-http://localhost:5173/
+```bash
+npm run lint
+npm run build
 ```
 
-## 📋 Criterios trabajados
+## Configuración de Firebase
 
-En este proyecto se trabajaron los siguientes conceptos:
+1. Creá un proyecto en Firebase y registrá una aplicación web.
+2. Copiá los campos de configuración del SDK a las variables `VITE_FIREBASE_*` de `.env`.
+3. En Authentication, habilitá el proveedor **Email/Password**.
+4. Creá Cloud Firestore en modo producción y publicá las reglas de `firestore.rules` desde la consola de Firebase.
+5. Creá manualmente documentos en la colección `items` usando el esquema de abajo. `category` debe coincidir con `Obras Clásicas` o `Historia y Arqueología` para que los filtros de navegación encuentren los productos.
 
-* Componentes funcionales de React.
-* Props.
-* Renderizado dinámico de listas.
-* Uso de `.map()`.
-* Uso de `key` para identificar elementos.
-* `useState`.
-* `useEffect`.
-* Consumo de APIs mediante `fetch`.
-* Programación asíncrona con `async/await`.
-* Manejo de errores con `try/catch`.
-* Custom Hooks.
-* Separación de responsabilidades.
-* Modularización de componentes.
-* Organización de estilos CSS.
+El archivo [`.env.example`](.env.example) enumera las variables requeridas sin incluir credenciales. La configuración se centraliza en `src/firebase/config.js`.
 
-## 👨‍💻 Autor
+## Colecciones de Firestore
 
-**Orestes Guerrero**
+### `items`
 
-Proyecto realizado como parte del curso de React en Coderhouse.
+El ID del documento se utiliza como ID del producto en las rutas. Ejemplo de documento:
+
+```json
+{
+  "name": "Don Quijote de la Mancha",
+  "description": "Edición ilustrada de la obra de Miguel de Cervantes.",
+  "price": 34000,
+  "img": "https://example.com/don-quijote.jpg",
+  "category": "Obras Clásicas",
+  "stock": 12,
+  "autor": "Miguel de Cervantes"
+}
+```
+
+El listado consulta todos los documentos o filtra por `category` en Firestore. El detalle consulta un documento por su ID.
+
+### `orders`
+
+Se crea un documento al confirmar una compra. La aplicación guarda una estructura equivalente a:
+
+```json
+{
+  "userId": "UID de Firebase Authentication",
+  "userEmail": "cliente@example.com",
+  "buyer": {
+    "name": "Nombre y apellido",
+    "phone": "Teléfono",
+    "address": "Dirección",
+    "city": "Ciudad",
+    "notes": "Información adicional"
+  },
+  "items": [
+    {
+      "productId": "don-quijote",
+      "name": "Don Quijote de la Mancha",
+      "unitPrice": 34000,
+      "quantity": 1
+    }
+  ],
+  "total": 34000,
+  "createdAt": "serverTimestamp()"
+}
+```
+
+`createdAt` se escribe con `serverTimestamp()`. El ID asignado por Firestore se muestra como confirmación; el carrito se vacía únicamente después de guardar la orden correctamente.
+
+## Rutas principales
+
+- `/` y `/productos`: catálogo
+- `/category/:categoryId`: catálogo filtrado
+- `/item/:id`: detalle del producto
+- `/cart`: carrito
+- `/register` y `/login`: autenticación
+- `/checkout`: checkout, disponible solo para usuarios autenticados y con productos en el carrito
+
+La sesión se sincroniza con `onAuthStateChanged`. Las reglas permiten la lectura pública del catálogo y solo permiten crear órdenes a usuarios autenticados, asociadas a su propio UID.

@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaRegTrashAlt } from 'react-icons/fa';
 import { useCart } from '../context/useCart';
@@ -10,7 +9,6 @@ function formatPrice(price) {
 
 function Cart() {
   const { cart, removeItem, clear, totalItems } = useCart();
-  const [checkoutMessage, setCheckoutMessage] = useState('');
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   const handleClear = () => {
@@ -71,13 +69,9 @@ function Cart() {
             <span>Total</span>
             <strong>{formatPrice(total)}</strong>
           </div>
-          <button
-            className="cart-checkout-button"
-            type="button"
-            onClick={() => setCheckoutMessage('La compra estará disponible próximamente.')}
-          >
+          <Link className="cart-checkout-button" to="/checkout">
             Finalizar compra
-          </button>
+          </Link>
           <button
             className="cart-clear-button"
             type="button"
@@ -85,7 +79,6 @@ function Cart() {
           >
             Vaciar carrito
           </button>
-          {checkoutMessage && <p className="cart-checkout-message" role="status">{checkoutMessage}</p>}
         </aside>
       </div>
     </div>

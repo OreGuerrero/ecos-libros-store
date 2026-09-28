@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { getProducts } from '../mock/asyncMock';
+import { getProducts } from '../services/catalog';
 
-export function useProducts() {
+export function useProducts(category) {
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -13,7 +13,7 @@ export function useProducts() {
       try {
         setIsLoading(true);
         setError(null);
-        const products = await getProducts();
+        const products = await getProducts(category);
         if (isActive) setItems(products);
       } catch (err) {
         if (isActive) {
@@ -28,7 +28,7 @@ export function useProducts() {
     return () => {
       isActive = false;
     };
-  }, []);
+  }, [category]);
 
   return { items, isLoading, error };
 }

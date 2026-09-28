@@ -1,7 +1,21 @@
+import { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import CartWidget from './CartWidget';
+import { useAuth } from '../context/useAuth';
 
 function Navbar() {
+  const { currentUser, isAuthLoading, logout } = useAuth();
+  const [authError, setAuthError] = useState('');
+
+  const handleLogout = async () => {
+    setAuthError('');
+    try {
+      await logout();
+    } catch {
+      setAuthError('No se pudo cerrar la sesión. Intentá nuevamente.');
+    }
+  };
+
   // Categorías basadas en los productos reales de Ecos Libros Store
   const categorias = [
     { name: 'Obras Clásicas', id: 'obras-clasicas' },
@@ -74,8 +88,23 @@ function Navbar() {
         ))}
       </ul>
 
+      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+        {!isAuthLoading && currentUser ? (
+          <>
+            <span>{currentUser.email}</span>
+            <button type="button" onClick={handleLogout}>Cerrar sesión</button>
+          </>
+        ) : (
+          <>
+            <Link to="/login">Ingresar</Link>
+            <Link to="/register">Crear cuenta</Link>
+          </>
+        )}
+      </div>
+
       {/* Widget del Carrito */}
       <CartWidget />
+      {authError && <span role="alert">{authError}</span>}
     </nav>
   );
 }

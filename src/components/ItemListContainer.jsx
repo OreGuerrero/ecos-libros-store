@@ -5,17 +5,13 @@ import { useProducts } from '../hooks/useProducts';
 function ItemListContainer({ greeting }) {
   const { categoryId } = useParams();
 
-  const { items, isLoading, error } = useProducts();
-
   const categoriaMap = {
     'obras-clasicas': 'Obras Clásicas',
     'historia-y-arqueologia': 'Historia y Arqueología'
   };
 
-  const categoria = categoriaMap[categoryId];
-  const productosFiltrados = categoryId
-    ? items.filter((product) => product.category === categoria)
-    : items;
+  const categoria = categoriaMap[categoryId] || null;
+  const { items, isLoading, error } = useProducts(categoria);
 
   const tituloPagina = categoryId
     ? `Categoría: ${categoria || categoryId.replace(/-/g, ' ')}`
@@ -32,7 +28,7 @@ function ItemListContainer({ greeting }) {
   return (
     <div>
       <h2>{tituloPagina}</h2>
-      <ItemList products={productosFiltrados} />
+      <ItemList products={items} />
     </div>
   );
 }
