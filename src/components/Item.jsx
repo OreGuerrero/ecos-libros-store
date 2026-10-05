@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import { BsCartPlus } from 'react-icons/bs';
 import { useCart } from '../context/useCart';
+import { formatPrice } from '../formatPrice';
 import '../styles/Item.css';
 
 function Item({ product }) {
@@ -85,12 +86,12 @@ function Item({ product }) {
 
       <div className="book-card-footer">
         <p className="book-price">
-          $ {typeof price === 'number' ? price.toLocaleString('es-AR') : price} ARS
+          {formatPrice(price)}
         </p>
 
         {stock && (
           <p className="book-stock">
-            Stock disponible: {stock}
+            Unidades disponibles: {stock}
           </p>
         )}
 
@@ -110,7 +111,9 @@ function Item({ product }) {
         </button>
         {addedQuantity > 0 && (
           <p role="status" style={{ color: '#2a9d8f', margin: '0.5rem 0 0' }}>
-            Se agregaron {addedQuantity} {addedQuantity === 1 ? 'unidad' : 'unidades'} al carrito.
+            {addedQuantity === 1
+              ? 'Se agregó 1 unidad al carrito.'
+              : `Se agregaron ${addedQuantity} unidades al carrito.`}
           </p>
         )}
       </div>

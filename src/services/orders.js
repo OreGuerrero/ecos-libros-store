@@ -3,13 +3,13 @@ import { db } from '../firebase/config';
 
 export async function createOrder({ user, buyer, cart }) {
   if (!db) {
-    throw new Error('Firebase no está configurado. Revisá las variables de entorno.');
+    throw new Error('Firebase no está configurado. Revisa las variables de entorno.');
   }
   if (!user?.uid) {
-    throw new Error('Necesitás iniciar sesión para confirmar la compra.');
+    throw new Error('Necesitas iniciar sesión para confirmar la compra.');
   }
   if (!cart.length) {
-    throw new Error('El carrito está vacío. Agregá productos antes de continuar.');
+    throw new Error('El carrito está vacío. Agrega productos antes de continuar.');
   }
 
   const items = cart.map((item) => ({

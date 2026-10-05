@@ -17,7 +17,10 @@ export function useProducts(category) {
         if (isActive) setItems(products);
       } catch (err) {
         if (isActive) {
-          setError(err.message || 'Ocurrió un error al obtener el catálogo de clásicos');
+          const message = err.message?.startsWith('Firebase no está configurado.')
+            ? 'Firebase no está configurado. Revisa las variables de entorno.'
+            : 'No pudimos cargar los libros. Intenta de nuevo.';
+          setError(message);
         }
       } finally {
         if (isActive) setIsLoading(false);

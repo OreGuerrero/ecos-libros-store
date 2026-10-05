@@ -40,9 +40,22 @@ npm run build
 2. Copiá los campos de configuración del SDK a las variables `VITE_FIREBASE_*` de `.env`.
 3. En Authentication, habilitá el proveedor **Email/Password**.
 4. Creá Cloud Firestore en modo producción y publicá las reglas de `firestore.rules` desde la consola de Firebase.
-5. Creá manualmente documentos en la colección `items` usando el esquema de abajo. `category` debe coincidir con `Obras Clásicas` o `Historia y Arqueología` para que los filtros de navegación encuentren los productos.
+5. Creá manualmente documentos en la colección `items` usando el esquema de abajo. `category` debe coincidir exactamente con uno de estos nombres para que aparezcan en el filtro: `Obras Clásicas`, `Historia y Arqueología`, `Fantasía y Aventuras` o `Ciencia Ficción`.
 
 El archivo [`.env.example`](.env.example) enumera las variables requeridas sin incluir credenciales. La configuración se centraliza en `src/firebase/config.js`.
+
+## Despliegue en Vercel
+
+1. En Vercel, elegí **Add New → Project**, conectá GitHub e importá el repositorio `OreGuerrero/ecos-libros-store`.
+2. Usá la raíz del repositorio como **Root Directory**. Vercel detecta Vite; verificá que el comando de build sea `npm run build` y el directorio de salida `dist`.
+3. En **Project Settings → Environment Variables**, cargá las seis variables de `.env.example` y asignales los entornos **Production** y **Preview**. Guardá los cambios y volvé a desplegar para que surtan efecto.
+4. El primer despliegue crea la versión de producción. Después, cada push a una rama que no sea la rama de producción y cada actualización de un Pull Request genera un **Preview Deployment** con una URL independiente. Al fusionar el PR en `main`, Vercel genera el despliegue de producción.
+
+Las variables con prefijo `VITE_` se incorporan al bundle del navegador: no las uses para secretos privados, tokens de servidor ni credenciales administrativas. La configuración web de Firebase, incluida su API key, es identificadora y visible en el cliente; protegé los datos con reglas de Firestore y Authentication. Para pruebas de Preview, preferí un proyecto Firebase separado con datos de prueba. Las variables de Vercel se administran por entorno y solo se aplican a despliegues nuevos.
+
+El archivo [`vercel.json`](vercel.json) reescribe las rutas de la SPA a `index.html`, para que URLs como `/checkout` o `/item/ID` funcionen al abrirlas o recargarlas directamente.
+
+Más información: [Preview Deployments](https://vercel.com/docs/deployments/environments#preview-environment-pre-production), [Variables de entorno](https://vercel.com/docs/environment-variables) y [Vite en Vercel](https://vercel.com/docs/frameworks/frontend/vite).
 
 ## Colecciones de Firestore
 

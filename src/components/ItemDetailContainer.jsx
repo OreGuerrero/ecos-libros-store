@@ -19,7 +19,10 @@ function ItemDetailContainer() {
         if (isActive) setResult({ id, product: response, error: null });
       } catch (err) {
         if (isActive) {
-          setResult({ id, product: null, error: err.message || 'No se pudo cargar el producto' });
+          const message = err.message?.startsWith('No se encontró')
+            ? err.message
+            : 'No pudimos cargar el libro. Intenta de nuevo.';
+          setResult({ id, product: null, error: message });
         }
       }
     };
@@ -32,15 +35,13 @@ function ItemDetailContainer() {
 
   if (isLoading) {
     return (
-      <div style={{ textAlign: 'center', padding: '4rem 1rem' }}>
-        <h3 style={{ color: '#1d3557' }}>Cargando detalle del libro...</h3>
-      </div>
+      <p className="catalog-status" role="status">Cargando detalle del libro...</p>
     );
   }
 
   if (error) {
     return (
-      <div style={{ textAlign: 'center', padding: '2rem', color: '#e63946' }}>
+      <div className="catalog-status catalog-error" role="alert">
         <h2>¡Error!</h2>
         <p>{error}</p>
       </div>
@@ -48,9 +49,9 @@ function ItemDetailContainer() {
   }
 
   return (
-    <main style={{ maxWidth: '1200px', margin: '0 auto', padding: '1rem' }}>
+    <div className="item-detail-view">
       {product && <ItemDetail product={product} />}
-    </main>
+    </div>
   );
 }
 

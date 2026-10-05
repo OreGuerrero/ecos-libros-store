@@ -3,14 +3,11 @@ import { Link, Navigate } from 'react-router-dom';
 import { useAuth } from '../context/useAuth';
 import { useCart } from '../context/useCart';
 import { createOrder } from '../services/orders';
+import { formatPrice } from '../formatPrice';
 import './Checkout.css';
 
-function formatPrice(price) {
-  return `$ ${price.toLocaleString('es-AR')} ARS`;
-}
-
 function Checkout() {
-  const { currentUser } = useAuth();
+  const { currentUser, isAuthLoading } = useAuth();
   const { cart, clear } = useCart();
   const [buyer, setBuyer] = useState({ name: '', phone: '', address: '', city: '', notes: '' });
   const [orderId, setOrderId] = useState('');
@@ -18,8 +15,26 @@ function Checkout() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
+  if (isAuthLoading) {
+    return <p className="checkout-page" role="status">Verificando sesión...</p>;
+  }
+
   if (!currentUser) {
-    return <Navigate to="/login" state={{ from: { pathname: '/checkout' } }} replace />;
+    return (
+      <section className="checkout-page checkout-auth">
+        <p className="checkout-eyebrow">Finalizar compra</p>
+        <h1>Inicia sesión para continuar</h1>
+        <p>Tu carrito se conservará mientras completas el acceso.</p>
+        <div className="checkout-auth-actions">
+          <Link className="checkout-submit" to="/login" state={{ from: { pathname: '/checkout' } }}>
+            Iniciar sesión
+          </Link>
+          <Link className="checkout-submit checkout-auth-register" to="/register" state={{ from: { pathname: '/checkout' } }}>
+            Crear cuenta
+          </Link>
+        </div>
+      </section>
+    );
   }
 
   if (orderId) {
@@ -52,8 +67,8 @@ function Checkout() {
       const createdOrderId = await createOrder({ user: currentUser, buyer, cart });
       clear();
       setOrderId(createdOrderId);
-    } catch (orderError) {
-      setError(orderError.message || 'No se pudo registrar la compra. Intentá nuevamente.');
+    } catch {
+      setError('No pudimos registrar la compra. Intenta de nuevo.');
     } finally {
       setIsSubmitting(false);
     }

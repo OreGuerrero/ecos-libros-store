@@ -7,7 +7,9 @@ function ItemListContainer({ greeting }) {
 
   const categoriaMap = {
     'obras-clasicas': 'Obras Clásicas',
-    'historia-y-arqueologia': 'Historia y Arqueología'
+    'historia-y-arqueologia': 'Historia y Arqueología',
+    'fantasia-y-aventuras': 'Fantasía y Aventuras',
+    'ciencia-ficcion': 'Ciencia Ficción'
   };
 
   const categoria = categoriaMap[categoryId] || null;
@@ -18,16 +20,19 @@ function ItemListContainer({ greeting }) {
     : greeting;
 
   if (isLoading) {
-    return <p>Cargando productos...</p>;
+    return <p className="catalog-status" role="status">Cargando productos...</p>;
   }
 
   if (error) {
-    return <p>Error: {error}</p>;
+    return <p className="catalog-status catalog-error" role="alert">Error: {error}</p>;
   }
 
   return (
-    <div>
-      <h2>{tituloPagina}</h2>
+    <div className="catalog-section">
+      <header className="catalog-heading">
+        <p className="catalog-eyebrow">{categoryId ? 'Explora por tema' : 'Para volver a descubrir'}</p>
+        <h2>{tituloPagina}</h2>
+      </header>
       <ItemList products={items} />
     </div>
   );

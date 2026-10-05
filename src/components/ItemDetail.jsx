@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import ItemCount from './ItemCount';
 import { useCart } from '../context/useCart';
+import { formatPrice } from '../formatPrice';
 import '../styles/ItemDetail.css'; // Importación de los estilos CSS
 
 function ItemDetail({ product }) {
@@ -42,7 +43,7 @@ function ItemDetail({ product }) {
           </h2>
 
           <p className="detail-price">
-            $ {typeof price === 'number' ? price.toLocaleString('es-AR') : price} ARS
+            {formatPrice(price)}
           </p>
 
           <p className="detail-description">
@@ -50,7 +51,7 @@ function ItemDetail({ product }) {
           </p>
 
           <p className={`detail-stock ${stock > 0 ? 'in-stock' : 'out-of-stock'}`}>
-            {stock > 0 ? `Stock disponible: ${stock} unidades` : 'Sin stock disponible'}
+            {stock > 0 ? `Unidades disponibles: ${stock}` : 'Agotado'}
           </p>
         </div>
 

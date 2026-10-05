@@ -5,17 +5,17 @@ import './Auth.css';
 
 function getAuthErrorMessage(error) {
   const messages = {
-    'auth/email-already-in-use': 'Ya existe una cuenta con ese email.',
-    'auth/invalid-email': 'Ingresá un email válido.',
+    'auth/email-already-in-use': 'Ya hay una cuenta con ese correo electrónico.',
+    'auth/invalid-email': 'Ingresa un correo electrónico válido.',
     'auth/weak-password': 'La contraseña debe tener al menos 6 caracteres.',
-    'auth/invalid-credential': 'El email o la contraseña son incorrectos.',
-    'auth/user-not-found': 'No encontramos una cuenta con ese email.',
-    'auth/wrong-password': 'El email o la contraseña son incorrectos.',
-    'auth/too-many-requests': 'Hubo demasiados intentos. Probá nuevamente más tarde.',
-    'auth/network-request-failed': 'No se pudo conectar. Revisá tu conexión.'
+    'auth/invalid-credential': 'El correo electrónico o la contraseña son incorrectos.',
+    'auth/user-not-found': 'No encontramos una cuenta con ese correo electrónico.',
+    'auth/wrong-password': 'El correo electrónico o la contraseña son incorrectos.',
+    'auth/too-many-requests': 'Hubo demasiados intentos. Intenta de nuevo más tarde.',
+    'auth/network-request-failed': 'No pudimos conectarnos. Revisa tu conexión.'
   };
 
-  return messages[error.code] || error.message || 'No se pudo completar la autenticación.';
+  return messages[error.code] || 'No pudimos completar el acceso. Intenta de nuevo.';
 }
 
 function Auth({ mode }) {
@@ -59,7 +59,7 @@ function Auth({ mode }) {
       <form className="auth-form" onSubmit={handleSubmit}>
         <p className="auth-eyebrow">Ecos Libros Store</p>
         <h1>{isRegister ? 'Crear cuenta' : 'Iniciar sesión'}</h1>
-        <label htmlFor="auth-email">Email</label>
+        <label htmlFor="auth-email">Correo electrónico</label>
         <input
           id="auth-email"
           type="email"
@@ -83,9 +83,9 @@ function Auth({ mode }) {
           {isSubmitting ? 'Procesando...' : isRegister ? 'Registrarme' : 'Ingresar'}
         </button>
         <p className="auth-switch">
-          {isRegister ? '¿Ya tenés cuenta?' : '¿Todavía no tenés cuenta?'}{' '}
+          {isRegister ? '¿Ya tienes una cuenta?' : '¿Todavía no tienes una cuenta?'}{' '}
           <Link to={isRegister ? '/login' : '/register'}>
-            {isRegister ? 'Iniciá sesión' : 'Registrate'}
+            {isRegister ? 'Inicia sesión' : 'Regístrate'}
           </Link>
         </p>
       </form>

@@ -1,18 +1,15 @@
 import { Link } from 'react-router-dom';
 import { FaRegTrashAlt } from 'react-icons/fa';
 import { useCart } from '../context/useCart';
+import { formatPrice } from '../formatPrice';
 import '../styles/Cart.css';
-
-function formatPrice(price) {
-  return `$ ${price.toLocaleString('es-AR')} ARS`;
-}
 
 function Cart() {
   const { cart, removeItem, clear, totalItems } = useCart();
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   const handleClear = () => {
-    if (window.confirm('¿Seguro que querés vaciar el carrito?')) {
+    if (window.confirm('¿Seguro que quieres vaciar el carrito?')) {
       clear();
     }
   };
@@ -21,8 +18,8 @@ function Cart() {
     return (
       <div className="cart-page cart-empty">
         <h1>Tu carrito está esperando una historia</h1>
-        <p>Explorá el catálogo y encontrá tu próxima lectura favorita.</p>
-        <Link className="cart-primary-link" to="/productos">Explorar catálogo</Link>
+        <p>Explora el catálogo y encuentra tu próxima lectura favorita.</p>
+        <Link className="cart-primary-link" to="/productos">Explora el catálogo</Link>
       </div>
     );
   }
@@ -34,7 +31,7 @@ function Cart() {
           <h1>Tu carrito</h1>
           <p>{totalItems} {totalItems === 1 ? 'producto' : 'productos'}</p>
         </div>
-        <Link className="cart-continue-link" to="/productos">Seguir explorando</Link>
+        <Link className="cart-continue-link" to="/productos">Sigue explorando</Link>
       </header>
 
       <div className="cart-layout">

@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import { FaBookOpen } from 'react-icons/fa';
 import CartWidget from './CartWidget';
 import { useAuth } from '../context/useAuth';
+import '../styles/NavBar.css';
 
 function Navbar() {
   const { currentUser, isAuthLoading, logout } = useAuth();
@@ -12,100 +14,57 @@ function Navbar() {
     try {
       await logout();
     } catch {
-      setAuthError('No se pudo cerrar la sesión. Intentá nuevamente.');
+      setAuthError('No se pudo cerrar la sesión. Intenta de nuevo.');
     }
   };
 
-  // Categorías basadas en los productos reales de Ecos Libros Store
   const categorias = [
     { name: 'Obras Clásicas', id: 'obras-clasicas' },
-    { name: 'Historia y Arqueología', id: 'historia-y-arqueologia' }
+    { name: 'Historia y Arqueología', id: 'historia-y-arqueologia' },
+    { name: 'Fantasía y Aventuras', id: 'fantasia-y-aventuras' },
+    { name: 'Ciencia Ficción', id: 'ciencia-ficcion' }
   ];
 
   return (
-    <nav style={{
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      padding: '1rem 2rem',
-      backgroundColor: '#f8f9fa',
-      borderBottom: '2px solid #e9ecef',
-      boxShadow: '0 2px 4px rgba(0,0,0,0.05)'
-    }}>
-      {/* Branding / Logo redirecciona al Inicio */}
-      <Link 
-        to="/" 
-        style={{ 
-          fontSize: '1.4rem', 
-          fontWeight: 'bold', 
-          color: '#1d3557',
-          textDecoration: 'none' 
-        }}
-      >
-        📚 Ecos Libros Store
-      </Link>
+    <header className="site-header">
+      <nav className="navbar" aria-label="Navegación principal">
+        <Link className="brand" to="/" aria-label="Ecos Libros Store, inicio">
+          <span className="brand-mark" aria-hidden="true"><FaBookOpen /></span>
+          <span className="brand-copy"><strong>Ecos</strong><small>LIBROS STORE</small></span>
+        </Link>
 
-      {/* Categorías de productos navegables sin recarga */}
-      <ul style={{
-        display: 'flex',
-        listStyle: 'none',
-        gap: '1.5rem',
-        margin: 0,
-        padding: 0
-      }}>
-        <li>
-          <NavLink
-            to="/"
-            style={({ isActive }) => ({
-              textDecoration: 'none',
-              color: isActive ? '#e63946' : '#495057',
-              fontWeight: isActive ? 'bold' : '500',
-              borderBottom: isActive ? '2px solid #e63946' : 'none',
-              paddingBottom: '0.2rem',
-              transition: 'color 0.2s'
-            })}
-          >
-            Inicio
-          </NavLink>
-        </li>
-
+        <ul className="nav-links">
+          <li><NavLink to="/" end className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>Inicio</NavLink></li>
         {categorias.map((cat) => (
           <li key={cat.id}>
-            <NavLink 
-              to={`/category/${cat.id}`} 
-              style={({ isActive }) => ({
-                textDecoration: 'none',
-                color: isActive ? '#e63946' : '#495057',
-                fontWeight: isActive ? 'bold' : '500',
-                borderBottom: isActive ? '2px solid #e63946' : 'none',
-                paddingBottom: '0.2rem',
-                transition: 'color 0.2s'
-              })}
-            >
+            <NavLink to={`/category/${cat.id}`} className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>
               {cat.name}
             </NavLink>
           </li>
         ))}
-      </ul>
+        </ul>
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-        {!isAuthLoading && currentUser ? (
-          <>
-            <span>{currentUser.email}</span>
-            <button type="button" onClick={handleLogout}>Cerrar sesión</button>
-          </>
-        ) : (
-          <>
-            <Link to="/login">Ingresar</Link>
-            <Link to="/register">Crear cuenta</Link>
-          </>
-        )}
-      </div>
-
-      {/* Widget del Carrito */}
-      <CartWidget />
-      {authError && <span role="alert">{authError}</span>}
-    </nav>
+        <div className="nav-actions">
+          <div className="account-links">
+            {isAuthLoading ? (
+              <span className="nav-loading" role="status">Cargando sesión...</span>
+            ) : currentUser ? (
+              <>
+                <span className="nav-user" title={currentUser.email}>{currentUser.email}</span>
+                <button className="nav-logout" type="button" onClick={handleLogout}>Salir</button>
+              </>
+            ) : (
+              <>
+                <Link className="nav-login" to="/login">Ingresar</Link>
+                <Link className="nav-register" to="/register">Crear cuenta</Link>
+              </>
+            )}
+          </div>
+          <CartWidget />
+        </div>
+        {authError && <p className="nav-error" role="alert">{authError}</p>}
+      </nav>
+    </header>
   );
 }
 
