@@ -4,17 +4,16 @@ import { useAuth } from '../context/useAuth';
 import { useCart } from '../context/useCart';
 import { createOrder } from '../services/orders';
 import { formatPrice } from '../formatPrice';
+import { getCartItemTotal } from '../utils/cart';
 import './Checkout.css';
 
 function Checkout() {
   const { currentUser, isAuthLoading } = useAuth();
-  const { cart, clear } = useCart();
+  const { cart, clear, cartTotal } = useCart();
   const [buyer, setBuyer] = useState({ name: '', phone: '', address: '', city: '', notes: '' });
   const [orderId, setOrderId] = useState('');
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-
   if (isAuthLoading) {
     return <p className="checkout-page" role="status">Verificando sesión...</p>;
   }
@@ -109,13 +108,13 @@ function Checkout() {
             {cart.map((item) => (
               <li key={item.id}>
                 <span>{item.name} × {item.quantity}</span>
-                <strong>{formatPrice(item.price * item.quantity)}</strong>
+                <strong>{formatPrice(getCartItemTotal(item))}</strong>
               </li>
             ))}
           </ul>
           <div className="checkout-total">
             <span>Total</span>
-            <strong>{formatPrice(total)}</strong>
+            <strong>{formatPrice(cartTotal)}</strong>
           </div>
         </aside>
       </div>

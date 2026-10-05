@@ -6,6 +6,7 @@ import '../styles/ItemDetail.css'; // Importación de los estilos CSS
 
 function ItemDetail({ product }) {
   const [quantityAdded, setQuantityAdded] = useState(0);
+  const [cartError, setCartError] = useState('');
   const { addItem } = useCart();
 
   // Protección defensiva para evitar errores si product aún no cargó
@@ -16,8 +17,9 @@ function ItemDetail({ product }) {
   const { name, price, img, category, description, stock } = product;
 
   const handleOnAdd = (quantity) => {
-    addItem(product, quantity);
-    setQuantityAdded(quantity);
+    const added = addItem(product, quantity);
+    setQuantityAdded(added);
+    setCartError(added === 0 ? 'No hay más unidades disponibles para agregar.' : '');
   };
 
   return (
@@ -62,7 +64,10 @@ function ItemDetail({ product }) {
               ✓ ¡Agregaste {quantityAdded} {quantityAdded === 1 ? 'ejemplar' : 'ejemplares'} al carrito!
             </p>
           ) : (
-            <ItemCount stock={stock} initial={1} onAdd={handleOnAdd} />
+            <>
+              <ItemCount stock={stock} initial={1} onAdd={handleOnAdd} />
+              {cartError && <p className="detail-error-msg" role="status">{cartError}</p>}
+            </>
           )}
         </div>
       </div>

@@ -116,4 +116,16 @@ Se crea un documento al confirmar una compra. La aplicación guarda una estructu
 - `/register` y `/login`: autenticación
 - `/checkout`: checkout, disponible solo para usuarios autenticados y con productos en el carrito
 
+## Criterios funcionales
+
+### Gestión del carrito y estado global
+
+`CartProvider`, montado en la raíz de la aplicación, mantiene un único carrito compartido por el catálogo, el encabezado, la página del carrito y el checkout. Desde el detalle o las tarjetas se agregan productos y, si el producto ya existe, se acumulan las unidades hasta el stock disponible. En `/cart` se pueden aumentar o reducir cantidades (sin bajar de una unidad ni superar el stock), eliminar un producto o vaciar todo el carrito tras confirmar la acción.
+
+El indicador del encabezado cuenta las unidades, no solo los productos distintos. Los subtotales y el total se calculan con las mismas funciones compartidas en carrito, checkout y orden; la orden se guarda con esas cantidades y ese total, y solo entonces se vacía el estado del carrito.
+
+### Catálogo dinámico e integración con Firestore
+
+El catálogo solicita los documentos de `items` a Cloud Firestore al abrir `/productos`. Las categorías del menú navegan a `/category/:categoryId`; el identificador de ruta se asocia al nombre exacto de `category` y filtra los documentos en Firestore. Al abrir una tarjeta, `/item/:id` consulta en Firestore el documento correspondiente y presenta sus datos, incluido el stock y la descripción. Las vistas muestran estados de carga y errores cuando las consultas no se completan.
+
 La sesión se sincroniza con `onAuthStateChanged`. Las reglas permiten la lectura pública del catálogo y solo permiten crear órdenes a usuarios autenticados, asociadas a su propio UID.

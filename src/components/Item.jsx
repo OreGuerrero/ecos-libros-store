@@ -22,6 +22,7 @@ function Item({ product }) {
   const [cantidad, setCantidad] = useState(1);
   const [esFavorito, setEsFavorito] = useState(false);
   const [addedQuantity, setAddedQuantity] = useState(0);
+  const [cartError, setCartError] = useState('');
 
   const decrementar = () => {
     if (cantidad > 1) {
@@ -37,8 +38,9 @@ function Item({ product }) {
 
   const agregarAlCarrito = () => {
     if (!id || !Number.isInteger(cantidad) || cantidad <= 0 || cantidad > stock) return;
-    addItem(product, cantidad);
-    setAddedQuantity(cantidad);
+    const added = addItem(product, cantidad);
+    setAddedQuantity(added);
+    setCartError(added === 0 ? 'No hay más unidades disponibles para agregar.' : '');
   };
 
   const toggleFavorito = () => {
@@ -116,6 +118,7 @@ function Item({ product }) {
               : `Se agregaron ${addedQuantity} unidades al carrito.`}
           </p>
         )}
+        {cartError && <p role="status" style={{ color: '#9b2226', margin: '0.5rem 0 0' }}>{cartError}</p>}
       </div>
     </article>
   );

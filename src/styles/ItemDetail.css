@@ -82,3 +82,8 @@
   color: var(--color-brand);
   font-weight: bold;
 }
+
+.detail-error-msg {
+  color: var(--color-accent);
+  font-weight: bold;
+}

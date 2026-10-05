@@ -1,5 +1,6 @@
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { db } from '../firebase/config';
+import { getCartTotal } from '../utils/cart';
 
 export async function createOrder({ user, buyer, cart }) {
   if (!db) {
@@ -18,7 +19,7 @@ export async function createOrder({ user, buyer, cart }) {
     unitPrice: item.price,
     quantity: item.quantity
   }));
-  const total = items.reduce((sum, item) => sum + item.unitPrice * item.quantity, 0);
+  const total = getCartTotal(cart);
   const order = {
     userId: user.uid,
     userEmail: user.email,
